@@ -27,4 +27,7 @@ Thumbs.db
 
 # Archivos de prueba
 prueba_sync*.txt
+urls_base.pyviews_base.py
+
 urls_base.py
+views_base.py
