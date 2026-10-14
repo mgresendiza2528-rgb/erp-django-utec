@@ -36,3 +36,16 @@ Al finalizar el Sprint 0, existira un proyecto Django 4.2 con estructura de 5 ap
 - URL publica en Render -> HTTP 200 (W03)
 - Repositorio con rama main + historial de commits
 - Ficha Schmelkes E1 completa (W03)
+
+## Sprint Backlog - W02 (actualizacion de estados)
+
+| Tarea | Estado |
+|---|---|
+| Crear templates/base.html con Fable 5 AzulERP | Hecho |
+| Crear 5 plantillas index.html por app | Hecho |
+| Migrar vistas a views.py con render() | Hecho |
+| Configurar WhiteNoise y STATIC_ROOT | Hecho |
+| Crear core/settings_prod.py borrador | Hecho |
+| Actualizar requirements.txt (gunicorn, psycopg2) | Hecho |
+| Crear tests/test_w02_mvt.py | Hecho |
+| HU-E1-03 Repositorio GitHub: avance W02 commiteado | Hecho |
