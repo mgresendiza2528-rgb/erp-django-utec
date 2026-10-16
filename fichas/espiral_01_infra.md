@@ -1,4 +1,3 @@
-# Ficha Schmelkes - Espiral 1 
 # Ficha Schmelkes - Espiral 1
 ## ERP Django - Espiral E1: Infraestructura y Configuracion Base
 ## UTEC Celaya - Tecnico en Programacion (SEP 3061300006-23)
@@ -38,7 +37,7 @@ Establecer el entorno de desarrollo portable en USB y desplegar el proyecto Djan
 
 - Repositorio GitHub: https://github.com/mgresendiza2528-rgb/erp-django-utec
 - URL publica Render: https://erp-django-utec-3116.onrender.com/
-- Captura de pantalla: evidencias/espiral_01/render_url.png (pendiente)
+- Captura de pantalla: evidencias/espiral_01/render_url.png
 - Resultado de tests: Ran 35 tests - OK
 - Retrospectiva: sprint0_retrospective.md
 
@@ -58,8 +57,10 @@ Establecer el entorno de desarrollo portable en USB y desplegar el proyecto Djan
 |---|---|---|
 | Git decia "not a git repository" | La variable GIT_DIR apuntaba a Git_Portable | Se borro con SET GIT_DIR= y se agrego al script de inicio |
 | Git no veia mis cambios | Edite la copia de la USB y no la de la PC | Copiar el archivo a ERP_Work y abrir el proyecto con "code ." |
-| Un test del admin fallaba | Faltaba la carpeta staticfiles con el manifiesto | Usar STATICFILES_STORAGE solo cuando DEBUG es False |
+| Un test del admin fallaba | Faltaba la carpeta staticfiles con el manifiesto | Ejecutar python manage.py collectstatic antes de correr los tests |
 | Falto psycopg2-binary en requirements.txt | No se habia instalado | Lo detecto un test de W03; se instalo y se actualizo el archivo |
+| La red del aula bloqueaba PyPI y GitHub | El firewall del aula | Usar los datos del celular y guardar get-pip.py en la USB |
+| Python y Git quedaban vacios (0 bytes) y el perfil se borraba al cerrar sesion | La USB escribia lento y el aula limpia el perfil | Respaldos .zip y .7z.exe en la USB y reinstalacion automatica desde iniciar_sesion.bat |
 
 ## 6. Lecciones aprendidas
 
@@ -81,3 +82,10 @@ Establecer el entorno de desarrollo portable en USB y desplegar el proyecto Djan
 ## 8. Conexion con el trabajo recepcional
 
 Esta espiral aporta evidencia para el Capitulo 4 (Desarrollo), seccion 4.1 "Espiral 1: Infraestructura", y para el Capitulo 3 (Metodologia), subseccion "Ciclos del modelo espiral".
+
+## 9. Resultado de git log --oneline -5
+2694771 Sprint 0 W03: evidencias de la Espiral 1 (capturas de Render)
+1880d7d Sprint 0 W03: estado final del sprint y hito M1
+1d6493b Sprint 0 W03: retrospectiva y ficha Schmelkes E1
+6ede581 Sprint 0 W03: Procfile sin espacios extra
+24a2f3d Sprint 0 W03: tests de despliegue y psycopg2-binary en requirements (35 tests OK)
