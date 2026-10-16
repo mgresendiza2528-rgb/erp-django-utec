@@ -49,3 +49,19 @@ Al finalizar el Sprint 0, existira un proyecto Django 4.2 con estructura de 5 ap
 | Actualizar requirements.txt (gunicorn, psycopg2) | Hecho |
 | Crear tests/test_w02_mvt.py | Hecho |
 | HU-E1-03 Repositorio GitHub: avance W02 commiteado | Hecho |
+
+
+## Sprint 0 - Estado final W03
+
+| HU | Estado | Puntos entregados |
+|---|---|---|
+| HU-E1-01 Entorno portable USB | Completada | 3 |
+| HU-E1-02 Scripts sincronizacion | Completada | 2 |
+| HU-E1-03 Repositorio GitHub | Completada | 2 |
+| HU-E1-04 Despliegue Render.com | Completada | 3 |
+| **Total entregado** | | **10 / 10** |
+
+## Hito M1 - ALCANZADO
+- URL publica: https://erp-django-utec-3116.onrender.com
+- Tests: 35 tests OK
+- Fecha: 15/10/2026
