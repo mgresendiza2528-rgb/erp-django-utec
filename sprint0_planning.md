@@ -1,54 +1,67 @@
-# Sprint 1 Planning — ERP Django
-## Semanas W04–W06 · Espiral 2: Modelado de Datos y ORM
+# Sprint 0 Planning - ERP Django
+## Semanas W01-W03 - Espiral 1: Infraestructura
 
 **Sprint Goal:**
-Al finalizar el Sprint 1, el ERP tendrá un esquema de base de datos
-completo implementado en Django, con 8 entidades, relaciones verificadas,
-panel admin funcional y una suite de ≥ 15 pruebas de modelo pasando.
+Al finalizar el Sprint 0, existira un proyecto Django 4.2 con estructura de 5 apps del ERP, desplegado en Render.com con URL publica funcional y repositorio en GitHub con al menos 10 commits.
 
-**Duración:** W04 (diseño) · W05 (implementación) · W06 (validación + M2)
+## HUs seleccionadas para este sprint
 
----
-
-## HUs seleccionadas del Product Backlog
-
-| ID | Historia de Usuario | Puntos | Semana |
+| ID | Historia | Puntos | Estado |
 |---|---|---|---|
-| HU-E2-01 | Como dev, quiero un diagrama ER aprobado para tener el plano del ERP | 3 | W04 |
-| HU-E2-02 | Como admin, quiero registrar clientes con nombre, correo y teléfono | 2 | W05 |
-| HU-E2-03 | Como admin, quiero registrar proveedores con contacto y correo | 2 | W05 |
-| HU-E2-04 | Como admin, quiero registrar categorías para clasificar productos | 1 | W05 |
-| HU-E2-05 | Como admin, quiero registrar productos con precio, stock y categoría | 3 | W05 |
-| HU-E2-06 | Como admin, quiero registrar ventas con líneas de detalle y total | 5 | W05 |
-| HU-E2-07 | Como dev, quiero 15+ tests de modelo para garantizar la integridad | 3 | W06 |
-| HU-E2-08 | Como admin, quiero ver todos los modelos en el panel admin con Jazzmin | 2 | W06 |
+| HU-E1-01 | Entorno portable USB | 3 | En progreso |
+| HU-E1-02 | Scripts de sincronizacion | 2 | En progreso |
+| HU-E1-03 | Repositorio en GitHub | 2 | Pendiente |
+| HU-E1-04 | Despliegue en Render.com | 3 | Pendiente |
 
-**Total de puntos del Sprint 1:** 21 puntos
+**Total de puntos del sprint:** 10
 
----
+## Sprint Backlog - Tareas tecnicas W01
 
-## Sprint Backlog — Tareas técnicas
+| Tarea | Responsable | Estado | Horas est. |
+|---|---|---|---|
+| Configurar Python 3.11 embeddable | Dev | Hecho | 0.5 h |
+| Instalar pip y virtualenv | Dev | Hecho | 0.3 h |
+| Configurar Git Portable | Dev | Hecho | 0.3 h |
+| Crear scripts .bat de sesion | Dev | Hecho | 0.5 h |
+| Crear proyecto Django core | Dev | Hecho | 0.5 h |
+| Crear 5 apps y urls minimas | Dev | Hecho | 1.0 h |
+| Configurar settings.py base | Dev | Hecho | 0.5 h |
+| Crear vista de bienvenida | Dev | Hecho | 0.3 h |
+| product_backlog.md + sprint0_planning.md | Dev | Hecho | 0.5 h |
+| Primer commit en GitHub | Dev | Pendiente | 0.3 h |
 
-| Tarea | Semana | Estado |
+## Criterios de aceptacion del Sprint 0
+- python manage.py check -> 0 issues
+- http://127.0.0.1:8000/ -> HTTP 200 (W01)
+- URL publica en Render -> HTTP 200 (W03)
+- Repositorio con rama main + historial de commits
+- Ficha Schmelkes E1 completa (W03)
+
+## Sprint Backlog - W02 (actualizacion de estados)
+
+| Tarea | Estado |
+|---|---|
+| Crear templates/base.html con Fable 5 AzulERP | Hecho |
+| Crear 5 plantillas index.html por app | Hecho |
+| Migrar vistas a views.py con render() | Hecho |
+| Configurar WhiteNoise y STATIC_ROOT | Hecho |
+| Crear core/settings_prod.py borrador | Hecho |
+| Actualizar requirements.txt (gunicorn, psycopg2) | Hecho |
+| Crear tests/test_w02_mvt.py | Hecho |
+| HU-E1-03 Repositorio GitHub: avance W02 commiteado | Hecho |
+
+
+## Sprint 0 - Estado final W03
+
+| HU | Estado | Puntos entregados |
 |---|---|---|
-| Diseñar diagrama ER (8 entidades) | W04 | ⏳ |
-| Normalizar a 3FN y documentar decisiones | W04 | ⏳ |
-| Obtener aprobación del asesor | W04 | ⏳ |
-| Implementar models.py × 5 apps | W05 | ⏳ |
-| Ejecutar makemigrations + migrate | W05 | ⏳ |
-| Registrar modelos en admin.py | W05 | ⏳ |
-| Agregar validators a campos críticos | W06 | ⏳ |
-| Escribir tests/test_models.py (≥ 15 tests) | W06 | ⏳ |
-| Instalar y configurar django-jazzmin | W06 | ⏳ |
+| HU-E1-01 Entorno portable USB | Completada | 3 |
+| HU-E1-02 Scripts sincronizacion | Completada | 2 |
+| HU-E1-03 Repositorio GitHub | Completada | 2 |
+| HU-E1-04 Despliegue Render.com | Completada | 3 |
+| **Total entregado** | | **10 / 10** |
 
----
-
-## Definición de Terminado (DoD) — Sprint 1
-
-- Diagrama ER aprobado formalmente por el asesor (firma en ficha)
-- `python manage.py showmigrations` → `[X] 0001_initial` en cada app
-- `/admin/` muestra las 8 entidades correctamente
-- `python manage.py test tests.test_models` → ≥ 15 tests PASSED
-- Precio negativo en Producto → `ValidationError`
-- Correo duplicado en Cliente → `IntegrityError`
-- `fichas/espiral_02_modelos.md` completa
+## Hito M1 - ALCANZADO
+- URL publica: https://erp-django-utec-3116.onrender.com
+- Tests: 35 tests OK
+- Fecha: 15/10/2026
