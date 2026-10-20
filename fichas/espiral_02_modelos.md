@@ -9,7 +9,7 @@
 | **Semanas** | W04 – W06 |
 | **Fecha de inicio** | 19/10/2026 |
 | **Fecha de cierre** | (completar en W06) |
-| **Responsable** | [Nombre del estudiante] |
+| **Responsable** | Resendiz Araiza Maya Gpe |
 | **Asesor** | MC. Román Fernando López González |
 
 ---
@@ -64,39 +64,11 @@ cobertura de pruebas ≥ 15 tests de modelo.
 
 ## 5. Problemas encontrados y soluciones
 
-(completar durante W04–W06)
+| Problema | Causa | Solución aplicada |
+|---|---|---|
+| La terminal del plantel no llegó a GitHub ni a PyPI | La red bloquea las conexiones de la terminal | Se dejó el push y los tests para otra red |
+| sprint1_planning.md se pegó sobre sprint0_planning.md | Archivo equivocado al pegar | Se restauró con git checkout y se separaron los dos archivos |
 
 ---
 
-## 6. Lecciones aprendidas
-
-(completar al cerrar en W06)
-
-1.
-2.
-3.
-
----
-
-## 7. Tiempo total invertido
-
-(completar al cerrar en W06)
-
-| Categoría | Horas |
-|---|---|
-| Diseño / planeación | |
-| Implementación | |
-| Pruebas | |
-| Documentación | |
-| **Total Espiral 2** | |
-
----
-
-## 8. Aprobación formal del diagrama ER
-
-| Rol | Nombre | Fecha | Observaciones |
-|---|---|---|---|
-| Desarrollador | [Nombre] | | |
-| **Asesor (PO)** | **MC. Román Fernando López González** | | |
-
-> ⚠️ **La Espiral 2 (W05) no puede iniciar sin la aprobación registrada aquí.**
+##
