@@ -1,6 +1,6 @@
 # Diagrama Entidad-Relación — ERP Django
 ## Espiral 2 · Aprobado por: MC. Román Fernando López González
-## Fecha de aprobación: 19/10/2026
+## Fecha de aprobación: ___/___/_____
 
 ```mermaid
 erDiagram
@@ -40,7 +40,11 @@ erDiagram
         datetime creado
     }
 
-
+    VENTA {
+        bigint id PK
+        bigint cliente_id FK
+        datetime fecha
+    }
 
     DETALLE_VENTA {
         bigint id PK
@@ -73,6 +77,7 @@ erDiagram
     PROVEEDOR   |o--o{ PRODUCTO      : "suministra"
     CLIENTE     ||--o{ VENTA         : "realiza"
     CLIENTE     ||--o{ PEDIDO        : "genera"
+    VENTA       ||--|{ DETALLE_VENTA : "contiene"
     PRODUCTO    ||--o{ DETALLE_VENTA : "incluido en"
 ```
 
@@ -99,4 +104,4 @@ erDiagram
 | Rol | Nombre | Fecha | Observaciones |
 |---|---|---|---|
 | Desarrollador | [Nombre] | | |
-|
+| Asesor (PO) | MC. Román Fernando López González | | |
