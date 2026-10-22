@@ -1,3 +1,14 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import ConfiguracionERP
+
+
+@admin.register(ConfiguracionERP)
+class ConfiguracionERPAdmin(admin.ModelAdmin):
+    list_display = ['nombre_empresa', 'rfc', 'moneda', 'iva_porcentaje']
+
+    def has_add_permission(self, request):
+        return not ConfiguracionERP.objects.exists()
+
+    def has_delete_permission(self, request, obj=None):
+        return False
