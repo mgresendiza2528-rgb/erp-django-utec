@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Clientes{% endblock %}
+{% block nav_clientes %}active{% endblock %}
+
+{% block content %}
+<div class="erp-page-title">
+    <h2>👥 Clientes</h2>
+    <span style="margin-left:auto;color:var(--clr-muted);font-size:.85rem;">
+        {{ page_obj.paginator.count }} cliente(s)
+    </span>
+</div>
+
+{% if clientes %}
+<table class="erp-table">
+    <thead>
+        <tr><th>#</th><th>Nombre</th><th>Correo</th><th>Teléfono</th></tr>
+    </thead>
+    <tbody>
+        {% for c in clientes %}
+        <tr>
+            <td><code>{{ c.pk }}</code></td>
+            <td>
+                <a href="{% url 'clientes:detalle' c.pk %}" style="color:var(--clr-royal);font-weight:600;">{{ c.nombre }}</a>
+            </td>
+            <td>{{ c.correo }}</td>
+            <td>{{ c.telefono|default:"—" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "_paginacion.html" %}
+{% else %}
+<div class="erp-alert-info">No hay clientes registrados aún.</div>
+{% endif %}
+{% endblock %}

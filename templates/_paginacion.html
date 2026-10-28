@@ -1,0 +1,13 @@
+{% if is_paginated %}
+<div style="display:flex;gap:.5rem;justify-content:center;margin-top:1.5rem;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="btn-erp-primary btn-erp-sm">← Anterior</a>
+    {% endif %}
+    <span style="padding:.35rem .75rem;color:var(--clr-muted);font-size:.88rem;">
+        Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+    </span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="btn-erp-primary btn-erp-sm">Siguiente →</a>
+    {% endif %}
+</div>
+{% endif %}
