@@ -1,95 +1,44 @@
-from pathlib import Path
-
-NOMBRE = "Resendiz Araiza Maya Gpe"
-INICIO = "__/__/2026"
-CIERRE = "29/10/2026"
-
-Path("fichas").mkdir(exist_ok=True)
-
-Path("sprint2_retrospective.md").write_text(f"""# Sprint 2 Retrospective — ERP Django
+# Sprint 2 Planning — ERP Django
 ## Semanas W07–W09 · Espiral 3: CRUD Web y Autenticación
 
-**Fecha:** {CIERRE}
+**Sprint Goal:**
+Al finalizar el Sprint 2, el ERP mostrará lista y detalle de las
+entidades principales, con formularios de alta/edición/borrado
+protegidos por autenticación y 3 roles de acceso.
 
-## ¿Qué funcionó bien? (Keep)
-1. select_related() en W07 evitó queries N+1 desde el inicio.
-2. reverse_lazy() en las vistas basadas en clases evitó errores de configuración.
-3. El management command crear_grupos permite configurar roles sin tocar el admin.
-4. Usar scripts generadores (gen_w08/gen_w09) aceleró la creación de archivos.
+**Duración:** W07 (ListView/DetailView) · W08 (Create/Update/Delete) · W09 (Auth + RBAC · M3)
 
-## ¿Qué mejorar? (Improve)
-1. Documentar el orden de LoginRequiredMixin + PermissionRequiredMixin.
-2. Con raise_exception=True, un anónimo recibe 403 en lugar de redirigir al login.
-3. Agregar la app 'core' a INSTALLED_APPS para que se detecte crear_grupos.
-4. Agregar template 403.html personalizado.
+## HUs seleccionadas
 
-## Acción de mejora (Kaizen) para Sprint 3
-> En el Sprint 3 (DRF) documentaré los endpoints con docstrings desde el inicio.
+| ID | Historia | Puntos | Semana |
+|---|---|---|---|
+| HU-E3-01 | Ver la lista de productos | 2 | W07 |
+| HU-E3-02 | Ver el detalle de un producto | 2 | W07 |
+| HU-E3-03 | Ver listas de clientes y proveedores | 2 | W07 |
+| HU-E3-04 | Ver el detalle de ventas con sus líneas | 3 | W07 |
+| HU-E3-05 | Crear y editar productos | 3 | W08 |
+| HU-E3-06 | Registrar nuevas ventas con detalles | 5 | W08 |
+| HU-E3-07 | Eliminar registros con confirmación | 2 | W08 |
+| HU-E3-08 | Autenticación login/logout funcional | 3 | W09 |
+| HU-E3-09 | 3 roles con permisos diferenciados | 5 | W09 |
 
-## Velocidad del Sprint 2
+**Total Sprint 2:** 27 puntos
 
-| HU | Pts plan. | Pts ent. |
-|---|---|---|
-| HU-E3-01 a HU-E3-09 | 27 | 27 |
+## Sprint Backlog — estado W08
 
-**Velocidad Sprint 2:** 27 puntos
-**Velocidad acumulada (S0+S1+S2):** 58 puntos
-""", encoding="utf-8")
-
-Path("fichas/espiral_03_crud_auth.md").write_text(f"""# Ficha de Sistematización — Espiral 3
-## ERP Django · Espiral E3: CRUD Web y Autenticación
-
-| Campo | Contenido |
+| Tarea | Estado |
 |---|---|
-| **Número de espiral** | 3 |
-| **Nombre del ciclo** | CRUD Web y Autenticación |
-| **Semanas** | W07 – W09 |
-| **Fecha de inicio** | {INICIO} |
-| **Fecha de cierre** | {CIERRE} |
-| **Responsable** | {RESENDIA ARAIZA MAYA GPE.} |
-| **Asesor** | MC. Román Fernando López González |
-
-## 1. Objetivo del ciclo
-Implementar la interfaz web del ERP con vistas de lectura y escritura, formularios validados, autenticación con allauth y control de acceso por rol (RBAC) con 3 grupos.
-
-## 2. Tareas realizadas
-1. ListView + DetailView x 4 entidades (W07)
-2. Formularios y vistas Create/Update/Delete (W08)
-3. django-allauth, templates login/signup (W09)
-4. Command crear_grupos (Gerente, Vendedor, Almacén)
-5. PermissionRequiredMixin en borrado y decoradores en crear_venta
-6. 10 tests RBAC; suite acumulada de 108 tests
-
-## 3. Evidencias
-- Tests: Ran 108 tests -> OK
-- Grupos: 32 / 6 / 7 permisos
-- Repositorio: github.com/mgresendiza2528-rgb/erp-django-utec
-
-## 4. Problemas encontrados
-- crear_grupos no se detectaba hasta agregar 'core' a INSTALLED_APPS.
-- Tests de W08 dieron 403 al exigir permisos; se usó create_superuser.
-- Un anónimo recibe 403 (no redirección) por raise_exception=True.
-
-## 5. Lecciones aprendidas
-1. Los management commands solo se detectan en apps instaladas.
-2. Los permisos nuevos obligan a ajustar los tests anteriores.
-3. Conviene probar cada rol a mano además de los tests.
-
-## 6. Tiempo total invertido
-
-| Categoría | Horas |
-|---|---|
-| Diseño | |
-| Implementación | |
-| Pruebas | |
-| Documentación | |
-| **Total Espiral 3** | |
-""", encoding="utf-8")
-
-print("listo")
-## Hito M3 - ALCANZADO
-- CRUD: 4 modulos con lectura y escritura
-- Auth: allauth con login/logout
-- RBAC: 3 grupos (Gerente/Vendedor/Almacen)
-- Tests: Ran 108 tests - OK
-- Fecha: 29/10/2026
+| ListView + DetailView para productos, clientes, proveedores y ventas | ✅ W07 |
+| 8 templates lista.html + detalle.html | ✅ W07 |
+| urls.py con rutas lista y detalle | ✅ W07 |
+| select_related / prefetch_related anti N+1 | ✅ W07 |
+| Tests de vistas de lectura | ✅ W07 |
+| forms.py × 4 apps (ModelForm + widgets) | ✅ W08 |
+| CreateView + UpdateView + DeleteView × 3 apps | ✅ W08 |
+| crear_venta + VentaDeleteView | ✅ W08 |
+| 11 templates crear + editar + eliminar | ✅ W08 |
+| Rutas de escritura en urls.py × 4 apps | ✅ W08 |
+| Mensajes flash en cada operación | ✅ W08 |
+| 13 tests de escritura (98 acumulados) | ✅ W08 |
+| Login/Logout + LoginRequiredMixin | ⏳ W09 |
+| 3 roles RBAC (Gerente/Vendedor/Almacén) | ⏳ W09 |

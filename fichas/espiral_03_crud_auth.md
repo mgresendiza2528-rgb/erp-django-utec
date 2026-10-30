@@ -41,8 +41,8 @@ Implementar la interfaz web del ERP con vistas de lectura y escritura, formulari
 
 | Categoría | Horas |
 |---|---|
-| Diseño | |
-| Implementación | |
-| Pruebas | |
-| Documentación | |
-| **Total Espiral 3** | |
+| Diseño | 2 |
+| Implementación | 8 |
+| Pruebas | 3 |
+| Documentación | 2 |
+| **Total Espiral 3** | 15 |
