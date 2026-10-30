@@ -13,7 +13,7 @@ from ventas.models import Venta
 
 class ProductoEscrituraTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('testuser', password='testpass123')
+        self.user = User.objects.create_superuser('testuser', password='testpass123')
         self.cat = Categoria.objects.create(nombre='Cat Test')
         self.prod = Producto.objects.create(
             nombre='Laptop', precio=Decimal('10000.00'), stock=5, categoria=self.cat)
@@ -60,7 +60,7 @@ class ProductoEscrituraTest(TestCase):
 
 class ClienteEscrituraTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('userC', password='pass')
+        self.user = User.objects.create_superuser('userC', password='pass')
 
     def test_crear_cliente_sin_auth_redirige(self):
         r = self.client.get(reverse('clientes:crear'))
@@ -84,7 +84,7 @@ class ClienteEscrituraTest(TestCase):
 
 class ProveedorEscrituraTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('userP', password='pass')
+        self.user = User.objects.create_superuser('userP', password='pass')
         self.prov = Proveedor.objects.create(nombre='Prov Test', correo='prov@test.com')
 
     def test_crear_proveedor_sin_auth_redirige(self):
@@ -101,7 +101,7 @@ class ProveedorEscrituraTest(TestCase):
 
 class VentaEscrituraTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('userV', password='pass')
+        self.user = User.objects.create_superuser('userV', password='pass')
         cat = Categoria.objects.create(nombre='Cat')
         self.prod = Producto.objects.create(
             nombre='P', precio=Decimal('100.00'), stock=5, categoria=cat)

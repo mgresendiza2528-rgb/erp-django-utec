@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView
 
@@ -69,7 +70,9 @@ class ClienteUpdateView(LoginRequiredMixin, UpdateView):
         return response
 
 
-class ClienteDeleteView(LoginRequiredMixin, DeleteView):
+class ClienteDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'clientes.delete_cliente'
+    raise_exception = True
     model = Cliente
     template_name = 'clientes/eliminar.html'
     pk_url_kwarg = 'cliente_id'
