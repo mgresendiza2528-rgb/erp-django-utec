@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0A2342">
-    <title>{% block title %}ERP Django{% endblock %} · UTEC Celaya</title>
+    <title>{% block title %}ERP de Mayy{% endblock %}</title>
 
     <!-- Google Fonts: Playfair Display + Inter + JetBrains Mono -->
+<!--
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
           rel="stylesheet">
+-->
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -137,7 +139,7 @@
             border-bottom: 1px solid var(--clr-border); font-size: .9rem;
         }
         .erp-table tbody tr:nth-child(even) td { background: var(--clr-ice); }
-        .erp-table tbody tr:hover td { background: rgba(74,144,217,.08); }
+        .erp-table tbody tr:hover td { background: rgba(107,29,51,.08); }
         .erp-table tfoot td {
             background: var(--clr-cream); color: var(--clr-gold);
             font-weight: 700; border-top: 2px solid var(--clr-gold);
@@ -245,13 +247,94 @@
         }
     </style>
     {% block extra_css %}{% endblock %}
+<style id="tema-mayy">
+:root{--clr-navy:#4A0E1E;--clr-ice:#F3EAE4;--clr-gold:#C9A27A;--clr-amber:#B8895C;--clr-sky:#8C3A52;}
+:root:not([data-theme="dark"]) body{background:#F3EAE4 !important;}
+[data-theme="dark"]{--clr-navy:#3A0C18;--clr-ice:#2A1218;--clr-sky:#E8C9A0;}
+[data-theme="dark"] body{background:#1A0D11 !important;color:#F3EAE4;}
+[data-theme="dark"] h1,[data-theme="dark"] h2,[data-theme="dark"] h3,
+[data-theme="dark"] h4,[data-theme="dark"] h5,[data-theme="dark"] h6,
+[data-theme="dark"] .erp-card strong,[data-theme="dark"] .erp-card .fw-bold,
+[data-theme="dark"] .erp-card .fw-semibold,[data-theme="dark"] .erp-page-title h2{color:#E8C9A0 !important;}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style id="brillo-mayy">
+/* ── Letras: Cinzel (lujo) + Playfair Display (elegante) + Poppins (texto) ── */
+body{font-family:'Poppins',system-ui,sans-serif !important;}
+h1,h2,h3,h4,h5,.erp-page-title h2,.erp-card-header,
+.erp-card strong,.erp-card .fw-bold,.erp-card .fw-semibold{
+  font-family:'Playfair Display',Georgia,serif !important;letter-spacing:.2px;}
+ 
+/* ── Marca de la barra: dorado con resplandor ── */
+.erp-brand{font-family:'Cinzel',Georgia,serif !important;font-weight:700;
+  letter-spacing:1.5px;color:#F3D98B !important;
+  text-shadow:0 0 10px rgba(243,217,139,.45);}
+ 
+/* ── Título principal: dorado con brillo que se mueve ── */
+.titulo-mayy{font-family:'Cinzel',Georgia,serif;font-weight:700;letter-spacing:3px;
+  font-size:1.05em;
+  background:linear-gradient(100deg,#7A5A10 0%,#C9A227 25%,#F3D98B 50%,#C9A227 75%,#7A5A10 100%);
+  background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:brillo-oro 6s linear infinite;}
+[data-theme="dark"] .titulo-mayy{
+  background-image:linear-gradient(100deg,#B8901E 0%,#F3D98B 25%,#FFF4C7 50%,#F3D98B 75%,#B8901E 100%);}
+@keyframes brillo-oro{0%{background-position:0% 0}100%{background-position:200% 0}}
+ 
+/* ── Frase de venta ── */
+.lema-mayy{display:inline-block;max-width:640px;line-height:1.5;
+  font-family:'Playfair Display',Georgia,serif;font-style:italic;
+  font-size:1.2rem;color:#6B1D33;}
+.lema-mayy::after{content:"";display:block;width:160px;height:2px;margin:14px auto 0;
+  background:linear-gradient(90deg,transparent,#C9A227,#D9D9D9,#C9A227,transparent);}
+[data-theme="dark"] .lema-mayy{color:#E8D7B0;}
+ 
+/* ── Tarjetas: borde plateado metálico ── */
+.erp-card{border:2px solid transparent !important;
+  background:linear-gradient(#fff,#fff) padding-box,
+             linear-gradient(135deg,#F4F4F4 0%,#A8A8A8 30%,#E6E6E6 55%,#8E8E8E 80%,#D9D9D9 100%) border-box !important;
+  transition:box-shadow .25s;}
+.erp-card:hover{box-shadow:0 8px 22px rgba(120,120,120,.35),0 0 0 1px rgba(201,162,39,.55) !important;}
+[data-theme="dark"] .erp-card{
+  background:linear-gradient(#2A1218,#2A1218) padding-box,
+             linear-gradient(135deg,#E6E6E6 0%,#8E8E8E 40%,#D9D9D9 70%,#9A9A9A 100%) border-box !important;}
+ 
+/* ── Barra y pie: línea dorada y plateada ── */
+.erp-navbar{border-bottom:3px solid #C9A227 !important;
+  border-image:linear-gradient(90deg,#B8901E,#F3D98B,#D9D9D9,#F3D98B,#B8901E) 1 !important;}
+.erp-footer{border-top:3px solid #C9A227 !important;
+  border-image:linear-gradient(90deg,#D9D9D9,#F3D98B,#B8901E,#F3D98B,#D9D9D9) 1 !important;}
+.erp-nav-link:hover,.erp-nav-link.active{color:#F3D98B !important;
+  text-shadow:0 0 8px rgba(243,217,139,.5);}
+ 
+/* ── Botón dorado ── */
+.btn-erp-gold{background:linear-gradient(135deg,#C9A227,#F3D98B,#B8901E) !important;
+  color:#3A0C18 !important;border:0 !important;}
+ 
+@media (prefers-reduced-motion:reduce){.titulo-mayy{animation:none;}}
+</style>
+<style id="brillitos-mayy">
+.erp-main:has(.titulo-mayy) .erp-card :is(h3,h4,h5,strong,.fw-bold,.fw-semibold)::before,
+.erp-main:has(.titulo-mayy) .erp-card :is(h3,h4,h5,strong,.fw-bold,.fw-semibold)::after{
+  content:"\2728";display:inline-block;margin:0 .45em;font-size:.9em;
+  animation:destello 2.4s ease-in-out infinite;}
+.erp-main:has(.titulo-mayy) .erp-card :is(h3,h4,h5,strong,.fw-bold,.fw-semibold)::after{animation-delay:1.2s;}
+@keyframes destello{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(1.3)}}
+@media (prefers-reduced-motion:reduce){
+  .erp-main:has(.titulo-mayy) .erp-card :is(h3,h4,h5,strong,.fw-bold,.fw-semibold)::before,.erp-main:has(.titulo-mayy) .erp-card :is(h3,h4,h5,strong,.fw-bold,.fw-semibold)::after{animation:none;}}
+</style>
 </head>
 
 <body>
 
 <!-- NAVBAR -->
 <nav class="erp-navbar">
-    <a class="erp-brand" href="/">📦 ERP Django <span>· UTEC Celaya</span></a>
+    <a class="erp-brand" href="/">👑 ERP de Mayy</a>
     <div class="erp-nav-links">
         <a href="{% url 'productos:lista' %}"
            class="erp-nav-link {% block nav_productos %}{% endblock %}">Productos</a>
@@ -298,7 +381,7 @@
 
 <!-- FOOTER -->
 <footer class="erp-footer">
-    ERP Django · Django 4.2 LTS · Fable 5 AzulERP · UTEC Celaya · Espiral 1
+    ERP de Mayy
 </footer>
 
 <!-- Bootstrap JS -->
@@ -326,6 +409,33 @@
 })();
 </script>
 {% block extra_js %}{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script id="confeti-mayy">
+(function(){
+  var ORO=['#FFD700','#F3D98B','#C9A227','#B8901E'];
+  var PLATA=['#F5F5F5','#E0E0E0','#C0C0C0','#A8A8A8'];
+  function lanzar(){
+    if(typeof confetti!=='function')return;
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var colores=ORO.concat(PLATA), fin=Date.now()+2200;
+    confetti({particleCount:140,spread:100,origin:{y:.6},colors:colores,scalar:1.1});
+    (function frame(){
+      confetti({particleCount:4,angle:60,spread:60,origin:{x:0,y:.7},colors:colores});
+      confetti({particleCount:4,angle:120,spread:60,origin:{x:1,y:.7},colors:colores});
+      if(Date.now()<fin)requestAnimationFrame(frame);
+    })();
+  }
+  window.confetiMayy=lanzar;
+  document.addEventListener('DOMContentLoaded',function(){
+    var avisos=document.querySelectorAll('.erp-alert-success');
+    var celebrar=Array.prototype.some.call(avisos,function(a){
+      var x=a.textContent;
+      return /venta|pago|cobro|pedido|factura/i.test(x) && !/elimin|borrad|cancel|anulad/i.test(x);
+    });
+    if(celebrar || location.search.indexOf('confeti=1')>-1) lanzar();
+  });
+})();
+</script>
 </body>
 </html>
 

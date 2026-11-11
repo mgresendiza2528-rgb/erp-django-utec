@@ -105,11 +105,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ── JAZZMIN: personalización del admin (Fable 5 AzulERP) ──────────────────
 JAZZMIN_SETTINGS = {
-    'site_title': 'ERP Django',
-    'site_header': 'ERP UTEC Celaya',
-    'site_brand': '📦 ERP Django',
-    'welcome_sign': 'Bienvenido al Sistema ERP · UTEC Celaya',
-    'copyright': 'MC. Román Fernando López González · UTEC Celaya',
+    'site_title': 'ERP de Mayy',
+    'site_header': 'ERP de Mayy',
+    'site_brand': '👑 ERP de Mayy',
+    'welcome_sign': 'Bienvenida al ERP de Mayy',
+    'copyright': 'ERP de Mayy',
     'site_icon': None,
     'site_logo': None,
     'search_model': ['clientes.Cliente', 'productos.Producto'],
