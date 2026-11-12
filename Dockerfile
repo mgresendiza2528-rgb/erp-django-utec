@@ -1,30 +1,19 @@
-# Dockerfile
-FROM python:3.11-slim
-
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PORT=8000
-
-WORKDIR /app
+FROM python:3.11-slim-bookworm
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libpq-dev gcc \
-    && rm -rf /var/lib/apt/lists/*
+    libpango-1.0-0 libpangoft2-1.0-0 libpangocairo-1.0-0 \
+    libcairo2 libcairo-gobject2 libgdk-pixbuf-2.0-0 \
+    libffi-dev shared-mime-info fonts-liberation fonts-dejavu-core \
+    libjpeg62-turbo-dev libpng-dev libwebp-dev zlib1g-dev \
+    libpq-dev gcc curl \
+ && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /app
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-
-RUN python manage.py collectstatic --no-input \
-    --settings=core.settings \
-    || echo "collectstatic con settings base"
-
-EXPOSE $PORT
-
-CMD gunicorn core.wsgi \
-    --bind 0.0.0.0:$PORT \
-    --workers 2 \
-    --timeout 120 \
-    --log-file -
+RUN chmod +x docker-entrypoint.sh
+EXPOSE 8000
+ENTRYPOINT ["./docker-entrypoint.sh"]

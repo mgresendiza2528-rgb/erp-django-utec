@@ -85,3 +85,4 @@ if _bucket:
     AWS_S3_FILE_OVERWRITE = False
     AWS_QUERYSTRING_AUTH = False
     MEDIA_URL = f'https://{_bucket}.s3.amazonaws.com/'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
