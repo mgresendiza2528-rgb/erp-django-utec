@@ -1,0 +1,15 @@
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .models import Venta
+from .serializers import VentaSerializer
+
+class VentaListCreateAPIView(ListCreateAPIView):
+    serializer_class = VentaSerializer
+    def get_queryset(self):
+        return (Venta.objects.select_related('cliente')
+                .prefetch_related('detalles__producto').order_by('-fecha'))
+
+class VentaDetailAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = VentaSerializer
+    def get_queryset(self):
+        return (Venta.objects.select_related('cliente')
+                .prefetch_related('detalles__producto'))

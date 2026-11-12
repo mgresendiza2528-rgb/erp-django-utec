@@ -1,0 +1,11 @@
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .models import Proveedor
+from .serializers import ProveedorSerializer
+
+class ProveedorListCreateAPIView(ListCreateAPIView):
+    queryset = Proveedor.objects.filter(activo=True).order_by('nombre')
+    serializer_class = ProveedorSerializer
+
+class ProveedorDetailAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Proveedor.objects.all()
+    serializer_class = ProveedorSerializer

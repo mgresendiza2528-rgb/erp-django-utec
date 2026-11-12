@@ -7,6 +7,8 @@ from django.db import models
 
 from proveedores.models import Proveedor
 
+from .validators import validar_imagen_producto
+
 
 class Categoria(models.Model):
     nombre = models.CharField(max_length=100, unique=True, verbose_name='Nombre')
@@ -50,6 +52,14 @@ class Producto(models.Model):
         verbose_name='Proveedor',
     )
     activo = models.BooleanField(default=True, verbose_name='Activo')
+    imagen = models.ImageField(
+        upload_to='productos/',
+        null=True,
+        blank=True,
+        verbose_name='Imagen del producto',
+        help_text='Formatos: JPEG, PNG, WEBP. Máximo 5 MB.',
+        validators=[validar_imagen_producto],
+    )
     creado = models.DateTimeField(auto_now_add=True, verbose_name='Creado')
 
     def clean(self) -> None:

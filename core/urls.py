@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from rest_framework.authtoken.views import obtain_auth_token
 from . import views
 
 urlpatterns = [
@@ -13,4 +14,9 @@ urlpatterns = [
     path('productos/', include('productos.urls', namespace='productos')),
     path('ventas/', include('ventas.urls', namespace='ventas')),
     path('reportes/', include('reportes.urls', namespace='reportes')),
+    path('api/token/', obtain_auth_token),
+    path('api/', include('productos.api_urls')),
+    path('api/', include('clientes.api_urls')),
+    path('api/', include('proveedores.api_urls')),
+    path('api/', include('ventas.api_urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
