@@ -31,3 +31,6 @@ urls_base.pyviews_base.py
 
 urls_base.py
 views_base.py
+.venv/
+env_erp_py314/
+db_danada.sqlite3
