@@ -1,88 +1,204 @@
-# core/settings_prod.py
-"""Configuración de producción — Render.com (versión final W03)."""
-from .settings import *   # hereda toda la configuración base
-import os
-import dj_database_url
+import environ
+from pathlib import Path
 
-# -- SEGURIDAD BASICA --
-DEBUG = False
-SECRET_KEY = os.environ['SECRET_KEY']   # falla intencionalmente si no existe
+BASE_DIR = Path(__file__).resolve().parent.parent
 
-# -- HOSTS PERMITIDOS --
-_render_host = os.environ.get('RENDER_EXTERNAL_HOSTNAME', '')
-_extra_hosts = os.environ.get('ALLOWED_HOSTS', '').split(',')
+env = environ.Env(DEBUG=(bool, True))
+environ.Env.read_env(BASE_DIR / '.env')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1'] + (
-    [_render_host] if _render_host else []
-) + [h for h in _extra_hosts if h]
+SECRET_KEY = env('SECRET_KEY', default='dev-key-insegura-solo-para-desarrollo')
+DEBUG = env('DEBUG', default=True)
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
-# -- BASE DE DATOS: PostgreSQL via DATABASE_URL --
+INSTALLED_APPS = [
+    'jazzmin',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'django_filters',
+    'whitenoise.runserver_nostatic',
+    'clientes',
+    'proveedores',
+    'productos',
+    'ventas',
+    'catalogo',
+    'reportes',
+    'configuracion',
+    'core',
+]
+
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+]
+
+ROOT_URLCONF = 'core.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
+WSGI_APPLICATION = 'core.wsgi.application'
+
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
-# -- CSRF: dominios de confianza --
-CSRF_TRUSTED_ORIGINS = []
-if _render_host:
-    CSRF_TRUSTED_ORIGINS.append(f'https://{_render_host}')
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
 
-# -- HEADERS HTTP SEGUROS --
-SECURE_SSL_REDIRECT = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-X_FRAME_OPTIONS = 'DENY'
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_REFERRER_POLICY = 'same-origin'
+LANGUAGE_CODE = 'es-mx'
+TIME_ZONE = 'America/Mexico_City'
+USE_I18N = True
+USE_TZ = True
 
-# -- ARCHIVOS ESTATICOS (sin manifiesto, para que Jazzmin funcione) --
-STORAGES = {
-    'default': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
-    'staticfiles': {'BACKEND': 'whitenoise.storage.CompressedStaticFilesStorage'},
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/productos/'
+LOGOUT_REDIRECT_URL = '/'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
 }
 
-# -- LOGGING: solo WARNING y superiores en produccion --
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'simple': {'format': '[%(levelname)s] %(name)s: %(message)s'},
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# ── JAZZMIN: personalización del admin (Fable 5 AzulERP) ──────────────────
+JAZZMIN_SETTINGS = {
+    'site_title': 'ERP de Mayy',
+    'site_header': 'ERP de Mayy',
+    'site_brand': '👑 ERP de Mayy',
+    'welcome_sign': 'Bienvenida al ERP de Mayy',
+    'copyright': 'ERP de Mayy',
+    'site_icon': None,
+    'site_logo': None,
+    'search_model': ['clientes.Cliente', 'productos.Producto'],
+    'topmenu_links': [
+        {'name': 'Inicio ERP', 'url': '/', 'new_window': False},
+        {'name': 'Productos', 'url': '/productos/'},
+        {'name': 'Clientes', 'url': '/clientes/'},
+        {'name': 'Ventas', 'url': '/ventas/'},
+    ],
+    'usermenu_links': [
+        {'name': 'Ver ERP', 'url': '/', 'new_window': False},
+    ],
+    'order_with_respect_to': [
+        'clientes', 'proveedores', 'productos',
+        'ventas', 'configuracion', 'auth',
+    ],
+    'icons': {
+        'auth': 'fas fa-users-cog',
+        'auth.user': 'fas fa-user',
+        'auth.Group': 'fas fa-users',
+        'clientes.Cliente': 'fas fa-user-tie',
+        'proveedores.Proveedor': 'fas fa-truck',
+        'productos.Categoria': 'fas fa-tags',
+        'productos.Producto': 'fas fa-box',
+        'ventas.Venta': 'fas fa-file-invoice-dollar',
+        'ventas.DetalleVenta': 'fas fa-list',
+        'ventas.Pedido': 'fas fa-shopping-cart',
+        'configuracion.ConfiguracionERP': 'fas fa-cogs',
     },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',
-    },
-    'loggers': {
-        'django.security': {
-            'handlers': ['console'],
-            'level': 'ERROR',
-            'propagate': False,
-        },
+    'default_icon_parents': 'fas fa-folder',
+    'default_icon_children': 'fas fa-circle',
+    'related_modal_active': True,
+    'custom_css': 'erp_custom.css',
+    'show_sidebar': True,
+    'navigation_expanded': True,
+    'hide_apps': [],
+    'hide_models': [],
+    'changeform_format': 'horizontal_tabs',
+    'language_chooser': False,
+}
+
+JAZZMIN_UI_TWEAKS = {
+    'navbar_small_text': False,
+    'footer_small_text': False,
+    'body_small_text': False,
+    'brand_small_text': False,
+    'brand_colour': 'navbar-dark',
+    'accent': 'accent-navy',
+    'navbar': 'navbar-dark',
+    'no_navbar_border': False,
+    'navbar_fixed': True,
+    'layout_boxed': False,
+    'footer_fixed': False,
+    'sidebar_fixed': True,
+    'sidebar': 'sidebar-dark-navy',
+    'sidebar_nav_small_text': False,
+    'sidebar_disable_expand': False,
+    'sidebar_nav_child_indent': True,
+    'sidebar_nav_compact_style': False,
+    'sidebar_nav_legacy_style': False,
+    'sidebar_nav_flat_style': False,
+    'theme': 'default',
+    'button_classes': {
+        'primary': 'btn-primary',
+        'secondary': 'btn-secondary',
+        'info': 'btn-info',
+        'warning': 'btn-warning',
+        'danger': 'btn-danger',
+        'success': 'btn-success',
     },
 }
 
-# -- MEDIA EN S3 (opcional): solo se activa si existe el bucket --
-_bucket = os.environ.get('AWS_STORAGE_BUCKET_NAME', '')
-if _bucket:
-    STORAGES['default'] = {'BACKEND': 'storages.backends.s3boto3.S3Boto3Storage'}
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
-    AWS_STORAGE_BUCKET_NAME = _bucket
-    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'us-east-1')
-    AWS_DEFAULT_ACL = None
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_QUERYSTRING_AUTH = False
-    MEDIA_URL = f'https://{_bucket}.s3.amazonaws.com/'
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# ---- W09: allauth ----
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_SESSION_REMEMBER = True
