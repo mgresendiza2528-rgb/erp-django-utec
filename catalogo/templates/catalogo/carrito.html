@@ -1,0 +1,1 @@
+<h2>Carrito</h2>{% for item in items %}<p>{{ item.nombre }} x {{ item.cantidad }} = ${{ item.subtotal }}</p>{% endfor %}<p>Total: ${{ total }}</p><a href="{% url 'catalogo:checkout' %}">Pagar</a>

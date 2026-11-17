@@ -1,0 +1,1 @@
+<h2>Catalogo</h2>{% for prod in productos %}<form method="post" action="{% url 'catalogo:agregar' prod.pk %}">{% csrf_token %}<input type="hidden" name="cantidad" value="1">{{ prod.nombre }} ${{ prod.precio }} <button>Agregar</button></form>{% endfor %}<a href="{% url 'catalogo:carrito' %}">Carrito ({{ carrito_total_items }})</a>
