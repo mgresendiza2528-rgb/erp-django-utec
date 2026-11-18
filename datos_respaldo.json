@@ -1,0 +1,146 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$NpCdHEZ07I91lt2E74ut1z$xD2ZOKdbiRmsB9R8Bw3+Na+pEbu08sf08KBOzCznUpY=",
+    "last_login": "2026-11-18T16:56:17.574Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "mg.resendiza.2528@cbtis198.edu.mx",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-11-18T16:50:15.145Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "c2zdqom33361ke2crjo4o9to28x37ion",
+  "fields": {
+    "session_data": ".eJxVjE0OwiAYBe_C2pC2gIBL956BfH9I1dCktCvj3W2TLnQ7M--9VYJ1KWltMqeR1UX16vTLEOgpdRf8gHqfNE11mUfUe6IP2_RtYnldj_bvoEAr2xoxWMnk5NyDHRAHY8GEEJxHznGjbLOL3jIKheycJxuDEBjujItdVJ8v_2o4Tw:1xTixF:9s_-3Wow_j1HU8Iyk2cLKWA6HJjhrFiRNBECWT71wlM",
+    "expire_date": "2026-12-02T16:56:17.582Z"
+  }
+},
+{
+  "model": "sites.site",
+  "pk": 1,
+  "fields": {
+    "domain": "example.com",
+    "name": "example.com"
+  }
+},
+{
+  "model": "clientes.cliente",
+  "pk": 1,
+  "fields": {
+    "nombre": "Juan Pérez",
+    "correo": "juan@utec.com",
+    "telefono": "",
+    "activo": true,
+    "creado": "2026-11-18T16:55:22.527Z"
+  }
+},
+{
+  "model": "clientes.cliente",
+  "pk": 2,
+  "fields": {
+    "nombre": "Ana García",
+    "correo": "ana@utec.com",
+    "telefono": "",
+    "activo": true,
+    "creado": "2026-11-18T16:55:22.530Z"
+  }
+},
+{
+  "model": "proveedores.proveedor",
+  "pk": 1,
+  "fields": {
+    "nombre": "Tech MX",
+    "contacto": "",
+    "correo": "ventas@techmx.com",
+    "telefono": "",
+    "activo": true,
+    "creado": "2026-11-18T16:55:22.520Z"
+  }
+},
+{
+  "model": "proveedores.proveedor",
+  "pk": 2,
+  "fields": {
+    "nombre": "Distribuidora Norte",
+    "contacto": "",
+    "correo": "contacto@distnorte.com",
+    "telefono": "",
+    "activo": true,
+    "creado": "2026-11-18T16:55:22.524Z"
+  }
+},
+{
+  "model": "productos.categoria",
+  "pk": 1,
+  "fields": {
+    "nombre": "Electrónica",
+    "descripcion": ""
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 1,
+  "fields": {
+    "nombre": "Laptop HP",
+    "precio": "12500.00",
+    "stock": 5,
+    "categoria": 1,
+    "proveedor": 1,
+    "activo": true,
+    "imagen": "",
+    "creado": "2026-11-18T16:55:22.536Z"
+  }
+},
+{
+  "model": "productos.producto",
+  "pk": 2,
+  "fields": {
+    "nombre": "Mouse inalámbrico",
+    "precio": "250.00",
+    "stock": 20,
+    "categoria": 1,
+    "proveedor": 2,
+    "activo": true,
+    "imagen": "",
+    "creado": "2026-11-18T16:55:22.540Z"
+  }
+},
+{
+  "model": "ventas.venta",
+  "pk": 1,
+  "fields": {
+    "cliente": 1,
+    "fecha": "2026-11-18T16:55:22.544Z"
+  }
+},
+{
+  "model": "ventas.detalleventa",
+  "pk": 1,
+  "fields": {
+    "venta": 1,
+    "producto": 1,
+    "cantidad": 1,
+    "precio_unitario": "12500.00"
+  }
+},
+{
+  "model": "ventas.detalleventa",
+  "pk": 2,
+  "fields": {
+    "venta": 1,
+    "producto": 2,
+    "cantidad": 2,
+    "precio_unitario": "250.00"
+  }
+}
+]
