@@ -17,12 +17,19 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1'] + (
 ) + [h for h in _extra_hosts if h]
 
 # -- BASE DE DATOS: PostgreSQL via DATABASE_URL --
+_db_url = os.environ.get('DATABASE_URL', '').strip()
+if _db_url.startswith('://'):
+    _db_url = f'postgresql{_db_url}'
+
+_is_external_db = '.render.com' in _db_url
+
 DATABASES = {
-    'default': dj_database_url.config(
+    'default': dj_database_url.parse(
+        _db_url,
         conn_max_age=600,
         conn_health_checks=True,
-        ssl_require=True,
-    )
+        ssl_require=_is_external_db,
+    ) if _db_url else DATABASES['default']
 }
 
 # -- CSRF: dominios de confianza --
