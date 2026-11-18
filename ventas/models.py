@@ -84,6 +84,10 @@ class DetalleVenta(models.Model):
 
 
 class Pedido(models.Model):
+    items_snapshot = models.JSONField(
+        default=list, blank=True,
+        verbose_name='Snapshot de items del carrito',
+    )
     ESTADO_CHOICES = [
         ('pendiente', 'Pendiente de pago'),
         ('pagado', 'Pago confirmado'),

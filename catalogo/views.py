@@ -122,11 +122,17 @@ def checkout(request):
     if request.method == 'POST':
         try:
             cliente = obtener_o_crear_cliente(request.user)
+            snapshot = [
+                {'producto_id': int(pk), 'nombre': d['nombre'],
+                 'cantidad': int(d['cantidad']), 'precio': str(d['precio'])}
+                for pk, d in carrito.items()
+            ]
             pedido = Pedido.objects.create(
                 numero_pedido=generar_numero_pedido(),
                 cliente=cliente,
                 estado='pendiente',
                 total_pagado=totales['total'],
+                items_snapshot=snapshot,
             )
             intent = stripe.PaymentIntent.create(
                 amount=int(totales['total'] * 100),
