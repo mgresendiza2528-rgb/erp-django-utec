@@ -12,7 +12,10 @@ from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils import timezone
 
-import weasyprint
+try:
+    import weasyprint
+except OSError:
+    weasyprint = None
 
 from configuracion.models import ConfiguracionERP
 from ventas.models import Venta

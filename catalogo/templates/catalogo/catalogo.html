@@ -5,22 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Catálogo · ERP de Mayy</title>
 <style>
-:root{--bg:#0A2342;--card:#142033;--line:#2A3F58;--gold:#D4AF37;--text:#E2EAF4;--muted:#8AA0B8;}
+:root{--bg:#F3EAE5;--card:#FFFFFF;--line:#E3D5CC;--gold:#D4AF37;--text:#2B1B1F;--muted:#7A6A6E;--vino:#4A0E1E;}
 *{box-sizing:border-box}
 body{margin:0;font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
-nav{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;padding:.9rem 1.5rem;background:#081a33;border-bottom:1px solid var(--line)}
-nav a{color:var(--text);text-decoration:none;font-size:.95rem}
+nav{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;padding:.9rem 1.5rem;background:#4A0E1E;border-bottom:2px solid var(--gold)}
+nav a{color:#F5E9DC;text-decoration:none;font-size:.95rem}
 nav a:hover{color:var(--gold)}
 nav .logo{color:var(--gold);font-weight:700}
 nav .carrito{margin-left:auto}
 main{max-width:1100px;margin:0 auto;padding:1.5rem}
-h1{color:var(--gold);margin:.2rem 0 1rem}
+h1{color:var(--vino);margin:.2rem 0 1rem}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1rem}
 .card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:1rem;display:flex;flex-direction:column;gap:.4rem}
 .card img{width:100%;height:150px;object-fit:cover;border-radius:8px}
 .precio{color:var(--gold);font-size:1.2rem;font-weight:700}
 .muted{color:var(--muted);font-size:.85rem}
-button,.btn{background:var(--gold);color:#0A2342;border:0;border-radius:8px;padding:.5rem .9rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+button,.btn{background:var(--gold);color:#4A0E1E;border:0;border-radius:8px;padding:.5rem .9rem;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.filtros{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:1rem;margin-bottom:1rem;display:flex;flex-wrap:wrap;gap:.8rem;align-items:end}.filtros p{margin:0}
 </style>
 </head>
 <body>
@@ -35,6 +36,7 @@ button,.btn{background:var(--gold);color:#0A2342;border:0;border-radius:8px;padd
 </nav>
 <main>
   <h1>Catálogo</h1>
+  <form method="get" class="filtros">{{ filtro.form.as_p }}<button type="submit">Filtrar</button> <a class="btn" href="{% url 'catalogo:catalogo' %}">Limpiar</a></form>
   <div class="grid">
   {% for prod in productos %}
     <form class="card" method="post" action="{% url 'catalogo:agregar' prod.pk %}">
