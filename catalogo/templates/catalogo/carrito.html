@@ -1,1 +1,129 @@
-<h2>Carrito</h2>{% for item in items %}<p>{{ item.nombre }} x {{ item.cantidad }} = ${{ item.subtotal }}</p>{% endfor %}<p>Total: ${{ total }}</p><a href="{% url 'catalogo:checkout' %}">Pagar</a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrito</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --vino: #4a0d1e;
+      --crema: #f3eae5;
+      --papel: #ffffff;
+      --texto: #4b5563;
+      --linea: #e3d9d3;
+      --oro-1: #ecd18a;
+      --oro-2: #b8942a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--crema);
+      color: var(--texto);
+      font-family: "Poppins", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+    header {
+      background: var(--vino);
+      height: 14px;
+    }
+    main {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 40px 16px 56px;
+    }
+    h1 {
+      color: var(--vino);
+      font-weight: 600;
+      font-size: 1.9rem;
+      margin: 0 0 20px;
+    }
+    .carrito {
+      background: var(--papel);
+      border-radius: 14px;
+      padding: 8px 28px 28px;
+      box-shadow: 0 6px 24px rgba(74, 13, 30, 0.08);
+    }
+    .item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2px 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--linea);
+    }
+    .item-nombre { color: var(--vino); font-weight: 500; }
+    .item-detalle { font-size: 0.9rem; }
+    .item-precio {
+      grid-row: 1 / span 2;
+      grid-column: 2;
+      align-self: center;
+      color: var(--vino);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 22px 0 20px;
+    }
+    .total-monto {
+      color: var(--vino);
+      font-size: 1.6rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+    .pagar {
+      display: block;
+      text-align: center;
+      background: linear-gradient(135deg, var(--oro-1), var(--oro-2));
+      color: var(--vino);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 14px 20px;
+      border-radius: 10px;
+      transition: filter 0.15s;
+    }
+    .pagar:hover { filter: brightness(1.06); }
+    .pagar:focus-visible { outline: 3px solid var(--vino); outline-offset: 2px; }
+    .seguir {
+      display: inline-block;
+      margin-top: 18px;
+      color: var(--vino);
+      font-size: 0.95rem;
+    }
+    .vacio { padding: 28px 0 20px; }
+  </style>
+</head>
+<body>
+  <header></header>
+  <main>
+    <h1>Tu carrito</h1>
+
+    <div class="carrito">
+      {% for item in items %}
+        <div class="item">
+          <div class="item-nombre">{{ item.nombre }}</div>
+          <div class="item-detalle">Cantidad: {{ item.cantidad }}</div>
+          <div class="item-precio">${{ item.subtotal }}</div>
+        </div>
+      {% empty %}
+        <p class="vacio">Tu carrito está vacío. Agrega un producto para continuar.</p>
+      {% endfor %}
+
+      {% if items %}
+        <div class="total">
+          <span>Total</span>
+          <span class="total-monto">${{ total }}</span>
+        </div>
+        <a class="pagar" href="{% url 'pagar' %}">Pagar</a>
+      {% endif %}
+    </div>
+
+    <a class="seguir" href="{% url 'inicio' %}">Seguir comprando</a>
+  </main>
+</body>
+</html>
