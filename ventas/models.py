@@ -84,6 +84,7 @@ class DetalleVenta(models.Model):
 
 
 class Pedido(models.Model):
+    correo_enviado = models.BooleanField(default=False)
     items_snapshot = models.JSONField(
         default=list, blank=True,
         verbose_name='Snapshot de items del carrito',
