@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8"><title>Alerta de stock</title>
+<style>body{font-family:Arial,sans-serif;background:#F5F7FA;color:#1A1A2E}.w{max-width:620px;margin:24px auto;background:#fff;border-radius:12px;overflow:hidden}.h{background:#C0392B;padding:24px 32px;border-bottom:4px solid #B8860B;color:#D4AF37;font-size:20px;font-weight:bold}.b{padding:24px 32px}table{width:100%;border-collapse:collapse;margin:16px 0}th{background:#0A2342;color:#fff;padding:8px 12px;font-size:12px;text-align:left}td{padding:8px 12px;border-bottom:1px solid #E8F0FB}.f{background:#F5F7FA;padding:12px 32px;font-size:12px;color:#5A6A7E;text-align:center}</style></head><body><div class="w">
+<div class="h">⚠️ Alerta: Stock bajo ({{ total_productos }})</div>
+<div class="b"><p>Generado el <strong>{{ fecha }}</strong>. Stock &lt; {{ umbral }} unidades.</p>
+<table><thead><tr><th>Producto</th><th>Stock</th><th>Categoría</th></tr></thead><tbody>
+{% for prod in productos_bajos %}<tr><td>{{ prod.nombre }}</td><td>{{ prod.stock }}</td><td>{{ prod.categoria__nombre }}</td></tr>
+{% endfor %}</tbody></table>
+<p><a href="{{ url_admin }}">{{ url_admin }}</a></p></div>
+<div class="f">{{ config.nombre_empresa }}</div></div></body></html>
