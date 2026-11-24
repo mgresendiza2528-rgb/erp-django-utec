@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de pedido {{ pedido.numero_pedido }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; background: #F5F7FA; color: #1A1A2E; padding: 20px;">
+    <div style="max-width: 600px; margin: 0 auto; background: #FFFFFF; border-radius: 10px; overflow: hidden;">
+        <div style="background: #0A2342; padding: 22px 28px; border-bottom: 4px solid #B8860B;">
+            <div style="color: #D4AF37; font-size: 20px; font-weight: bold;">¡Pago confirmado!</div>
+            <div style="color: #FFFFFF; font-size: 13px;">{{ config.nombre_empresa }}</div>
+        </div>
+        <div style="padding: 24px 28px;">
+            <p>Hola, <strong>{{ pedido.cliente.nombre }}</strong>:</p>
+            <p>Tu pedido <strong>{{ pedido.numero_pedido }}</strong> por <strong>${{ pedido.total_pagado }}</strong> ha sido confirmado.</p>
+            {% if items %}
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <thead>
+                    <tr style="background: #0A2342; color: #FFFFFF;">
+                        <th style="padding: 8px 12px; text-align: left;">Producto</th>
+                        <th style="padding: 8px 12px; text-align: right;">Precio</th>
+                        <th style="padding: 8px 12px; text-align: right;">Cant.</th>
+                        <th style="padding: 8px 12px; text-align: right;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td style="padding: 8px 12px; border-bottom: 1px solid #E8F0FB;">{{ item.nombre }}</td>
+                        <td style="padding: 8px 12px; border-bottom: 1px solid #E8F0FB; text-align: right;">${{ item.precio }}</td>
+                        <td style="padding: 8px 12px; border-bottom: 1px solid #E8F0FB; text-align: right;">{{ item.cantidad }}</td>
+                        <td style="padding: 8px 12px; border-bottom: 1px solid #E8F0FB; text-align: right;">${{ item.subtotal }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+            <p><a href="{{ url_tienda }}" style="display: inline-block; background: #B8860B; color: #FFFFFF; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">Volver a la tienda</a></p>
+        </div>
+    </div>
+</body>
+</html>
