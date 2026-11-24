@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de ventas — {{ fecha }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; background: #F5F7FA; color: #1A1A2E; padding: 20px;">
+    <div style="max-width: 640px; margin: 0 auto; background: #FFFFFF; border-radius: 10px; overflow: hidden;">
+        <div style="background: #0A2342; padding: 22px 28px; border-bottom: 4px solid #B8860B;">
+            <div style="color: #D4AF37; font-size: 20px; font-weight: bold;">Reporte de ventas del día</div>
+            <div style="color: #FFFFFF; font-size: 13px;">{{ config.nombre_empresa }} · {{ fecha }}</div>
+        </div>
+        <div style="padding: 24px 28px;">
+            <p><strong>Pedidos pagados hoy:</strong> {{ total_pedidos }} · <strong>Total facturado:</strong> ${{ total_facturado }}</p>
+            {% if top_productos %}
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0;">
+                <thead>
+                    <tr style="background: #0A2342; color: #FFFFFF;">
+                        <th style="padding: 8px 12px; text-align: left;">#</th>
+                        <th style="padding: 8px 12px; text-align: left;">Producto</th>
+                        <th style="padding: 8px 12px; text-align: right;">Unidades</th>
+                        <th style="padding: 8px 12px; text-align: right;">Ingreso ($)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for prod in top_productos %}
+                    <tr>
+                        <td style="padding: 8px 12px; border-bottom: 1px solid #E8F0FB;">{{ forloop.counter }}</td>
+                        <td style="padding: 8px 12px; border-bottom: 1px solid #E8F0FB;">{{ prod.nombre }}</td>
+                        <td style="padding: 8px 12px; border-bottom: 1px solid #E8F0FB; text-align: right;">{{ prod.unidades }}</td>
+                        <td style="padding: 8px 12px; border-bottom: 1px solid #E8F0FB; text-align: right;">${{ prod.ingreso }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>Sin ventas registradas hoy.</p>
+            {% endif %}
+            <p><a href="{{ url_admin }}">{{ url_admin }}</a></p>
+            <p style="font-size: 12px; color: #5A6A7E;">Hora programada: {{ hora_programada }} (hora de México)</p>
+        </div>
+    </div>
+</body>
+</html>
