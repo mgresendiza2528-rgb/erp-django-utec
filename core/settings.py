@@ -1,5 +1,7 @@
-import environ
+from datetime import timedelta
 from pathlib import Path
+from celery.schedules import crontab
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,6 +13,7 @@ DEBUG = env('DEBUG', default=True)
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
 
 INSTALLED_APPS = [
+    'anymail',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -113,7 +116,7 @@ REST_FRAMEWORK = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# ── JAZZMIN: personalización del admin (Fable 5 AzulERP) ──────────────────
+# ── JAZZMIN: personalización del admin ────────────────────────────────────
 JAZZMIN_SETTINGS = {
     'site_title': 'ERP de Mayy',
     'site_header': 'ERP de Mayy',
@@ -203,6 +206,83 @@ ACCOUNT_EMAIL_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_SESSION_REMEMBER = True
-STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='sk_test_placeholder') 
-STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY', default='pk_test_placeholder') 
-STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='whsec_placeholder') 
+
+# ---- STRIPE ----
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='sk_test_placeholder')
+STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY', default='pk_test_placeholder')
+STRIPE_WEBHOOK_SECRET = env('STRIPE_WEBHOOK_SECRET', default='whsec_placeholder')
+
+# ── CORREO ELECTRÓNICO (W17) ──────────────────────────────────────────────
+SENDGRID_API_KEY = env('SENDGRID_API_KEY', default='')
+
+# Si hay API Key de SendGrid, se usa SendGrid automáticamente.
+# Si no hay, los correos solo se imprimen en la consola.
+EMAIL_BACKEND = env(
+    'EMAIL_BACKEND',
+    default=(
+        'anymail.backends.sendgrid.EmailBackend'
+        if SENDGRID_API_KEY
+        else 'django.core.mail.backends.console.EmailBackend'
+    ),
+)
+DEFAULT_FROM_EMAIL = env(
+    'DEFAULT_FROM_EMAIL',
+    default='ERP Django <noreply@erp-django.com>'
+)
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+EMAIL_SUBJECT_PREFIX = '[ERP Django] '
+ADMINS = [
+    ('Admin ERP', env('ADMIN_EMAIL', default='admin@erp-django.com')),
+]
+SITE_URL = env(
+    'SITE_URL',
+    default=env('RENDER_EXTERNAL_URL', default='http://127.0.0.1:8000')
+).rstrip('/')
+ANYMAIL = {
+    'SENDGRID_API_KEY': SENDGRID_API_KEY,
+}
+
+# ── CELERY + BEAT (W16 + W18) ─────────────────────────────────────────────
+REDIS_URL = env('REDIS_URL', default='')
+
+if REDIS_URL:
+    CELERY_BROKER_URL = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
+    CELERY_TASK_ALWAYS_EAGER = False
+else:
+    # Sin Redis: las tareas se ejecutan al momento (sirve en Render sin worker)
+    CELERY_BROKER_URL = 'memory://'
+    CELERY_RESULT_BACKEND = 'cache+memory://'
+    CELERY_TASK_ALWAYS_EAGER = True
+
+CELERY_RESULT_EXPIRES = 3600
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_TASK_SOFT_TIME_LIMIT = 300
+CELERY_TASK_TIME_LIMIT = 360
+CELERY_TASK_DEFAULT_QUEUE = 'erp_django'
+CELERY_TASK_EAGER_PROPAGATES = True
+
+REPORTE_DIARIO_HORA = env('REPORTE_DIARIO_HORA', default='08:00')
+try:
+    _rep_h, _rep_m = (int(x) for x in REPORTE_DIARIO_HORA.split(':'))
+except ValueError:
+    _rep_h, _rep_m = 8, 0
+
+CELERY_BEAT_SCHEDULE = {
+    'verificar-stock-bajo-cada-hora': {
+        'task': 'ventas.verificar_stock_bajo',
+        'schedule': timedelta(hours=1),
+        'args': (5,),
+        'options': {'queue': 'erp_django'},
+    },
+    'reporte-ventas-diario-8am': {
+        'task': 'ventas.reporte_ventas_diario',
+        'schedule': crontab(hour=_rep_h, minute=_rep_m),
+        'options': {'queue': 'erp_django'},
+    },
+}
+CELERY_BEAT_TIMEZONE = TIME_ZONE
