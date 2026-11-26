@@ -1,41 +1,47 @@
-from django.contrib import admin
+# ventas/admin.py
+from django.contrib import admin, messages
 
 from .models import DetalleVenta, Pedido, Venta
+from .tasks import enviar_confirmacion_pedido
 
 
 class DetalleVentaInline(admin.TabularInline):
     model = DetalleVenta
     extra = 1
-    fields = ['producto', 'cantidad', 'precio_unitario']
 
 
 @admin.register(Venta)
 class VentaAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'cliente', 'fecha', 'total_admin']
-    search_fields = ['cliente__nombre', 'cliente__correo']
-    readonly_fields = ['fecha']
+    list_display = ('id', 'cliente', 'fecha')
     inlines = [DetalleVentaInline]
-    date_hierarchy = 'fecha'
-
-    @admin.display(description='Total ($)')
-    def total_admin(self, obj):
-        return f"${obj.total:.2f}"
 
 
-@admin.register(DetalleVenta)
-class DetalleVentaAdmin(admin.ModelAdmin):
-    list_display = ['pk', 'venta', 'producto', 'cantidad', 'precio_unitario', 'subtotal_admin']
-    search_fields = ['producto__nombre']
-    readonly_fields = ['precio_unitario']
-
-    @admin.display(description='Subtotal ($)')
-    def subtotal_admin(self, obj):
-        return f"${obj.subtotal:.2f}"
+@admin.action(description="Enviar correo de confirmación (pagados sin correo)")
+def enviar_correo_confirmacion(modeladmin, request, queryset):
+    pendientes = queryset.filter(estado='pagado', correo_enviado=False)
+    enviados = 0
+    for pedido in pendientes:
+        try:
+            enviar_confirmacion_pedido.delay(pedido.pk)
+            enviados += 1
+        except Exception as exc:
+            messages.error(
+                request,
+                f"No se pudo encolar {pedido.numero_pedido}: {exc}",
+            )
+    omitidos = queryset.count() - pendientes.count()
+    if enviados:
+        messages.success(request, f"{enviados} correo(s) en cola.")
+    if omitidos:
+        messages.warning(
+            request,
+            f"{omitidos} pedido(s) omitidos (no pagados o ya con correo enviado).",
+        )
 
 
 @admin.register(Pedido)
 class PedidoAdmin(admin.ModelAdmin):
-    list_display = ['numero_pedido', 'cliente', 'estado', 'fecha_pedido', 'total_pagado']
-    search_fields = ['numero_pedido', 'cliente__nombre']
-    list_filter = ['estado']
-    readonly_fields = ['fecha_pedido']
+    list_display = ('numero_pedido', 'cliente', 'estado', 'total_pagado', 'correo_enviado')
+    list_filter = ('estado', 'correo_enviado')
+    search_fields = ('numero_pedido',)
+    actions = [enviar_correo_confirmacion]
