@@ -45,3 +45,17 @@ class PedidoAdmin(admin.ModelAdmin):
     list_filter = ('estado', 'correo_enviado')
     search_fields = ('numero_pedido',)
     actions = [enviar_correo_confirmacion]
+    from django.contrib import messages as _messages
+from .tasks import enviar_confirmacion_pedido
+
+
+@admin.action(description="Enviar correo de confirmación (pagados sin correo)")
+def enviar_correo_confirmacion(modeladmin, request, queryset):
+    n = 0
+    for pedido in queryset.filter(estado='pagado', correo_enviado=False):
+        enviar_confirmacion_pedido.delay(pedido.pk)
+        n += 1
+    _messages.success(request, f"{n} correo(s) en cola.")
+
+
+PedidoAdmin.actions = list(PedidoAdmin.actions or []) + [enviar_correo_confirmacion]
