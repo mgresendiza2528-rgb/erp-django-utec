@@ -70,6 +70,11 @@ def _manejar_pago_exitoso(payment_intent):
     pedido.estado = 'pagado'
     pedido.save(update_fields=['estado'])
     _descontar_stock(pedido)
+    try:
+        from ventas.tasks import enviar_confirmacion_pedido
+        enviar_confirmacion_pedido.delay(pedido.pk)
+    except Exception:
+        logger.exception('Webhook: no se pudo encolar el correo del pedido %s.', pedido.pk)
 
 
 def _manejar_pago_fallido(payment_intent):
